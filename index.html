@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juan José Fernández Torres — Dev & AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0b0b0b;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --border: #2a2a2a;
+    --accent: #c8a96e;
+    --accent2: #8a6f3e;
+    --text: #e8e0d0;
+    --muted: #7a7065;
+    --white: #f5f0e8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.2rem 2.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(11,11,11,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding-top: 80px;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem 4rem 10vw;
+    border-right: 1px solid var(--border);
+  }
+  .hero-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    font-weight: 700;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.35s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-tagline {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 380px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.5s forwards;
+  }
+  .hero-cta {
+    margin-top: 2.5rem;
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.65s forwards;
+  }
+  .btn {
+    padding: 0.65rem 1.5rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: inline-block;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0b0b0b;
+    border: 1px solid var(--accent);
+  }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 3rem;
+    gap: 1.5rem;
+  }
+  .hero-stat {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.8s forwards;
+  }
+  .hero-stat:nth-child(2) { animation-delay: 0.95s; }
+  .hero-stat:nth-child(3) { animation-delay: 1.1s; }
+  .hero-stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.78rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 10vw; }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: var(--white);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 2fr 3fr; gap: 5rem; align-items: start; }
+  .about-text p { color: var(--muted); line-height: 1.9; margin-bottom: 1rem; font-size: 0.95rem; }
+  .about-text strong { color: var(--text); font-weight: 500; }
+  .about-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .chip {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+  .chip.accent { border-color: var(--accent2); color: var(--accent); }
+  .about-info { display: flex; flex-direction: column; gap: 1.2rem; }
+  .info-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem; font-size: 0.88rem; }
+  .info-row span:first-child { color: var(--muted); }
+  .info-row span:last-child { color: var(--text); }
+
+  /* SKILLS */
+  #skills { background: var(--bg); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; border: 1px solid var(--border); }
+  .skill-card {
+    background: var(--surface);
+    padding: 2rem;
+    transition: background 0.2s;
+  }
+  .skill-card:hover { background: var(--surface2); }
+  .skill-icon {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+  .skill-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--white);
+    margin-bottom: 0.8rem;
+  }
+  .skill-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.8; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .skill-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(200,169,110,0.08);
+    border: 1px solid rgba(200,169,110,0.2);
+    border-radius: 2px;
+    color: var(--accent);
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.8rem;
+    transition: border-color 0.2s, transform 0.2s;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .project-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .project-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+  .project-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.7; }
+  .project-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.2rem; }
+  .project-stack { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .project-stack span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+  }
+  .project-arrow {
+    font-size: 0.8rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .project-card:hover .project-arrow { opacity: 1; }
+
+  /* CONTACT */
+  #contact { background: var(--bg); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .contact-left p { color: var(--muted); line-height: 1.9; font-size: 0.95rem; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; color: var(--muted);
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    transition: color 0.2s;
+  }
+  .contact-link:hover { color: var(--accent); }
+  .contact-link-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--accent); letter-spacing: 0.1em; min-width: 80px; }
+  .contact-right {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    border-radius: 4px;
+  }
+  .contact-right h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+  .form-group input, .form-group textarea {
+    width: 100%; background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.7rem 1rem;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent); }
+  .form-group textarea { min-height: 100px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 10vw;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 3rem 6vw; border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-right { padding: 2rem 6vw; flex-direction: row; flex-wrap: wrap; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    section { padding: 4rem 6vw; }
+    nav { padding: 1rem 5vw; }
+    .nav-links { gap: 1.2rem; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">JJF.dev</a>
+  <ul class="nav-links">
+    <li><a href="#about">Sobre mí</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-label">// Jerez de la Frontera, España</p>
+    <h1 class="hero-name">Juan José<br><em>Fernández</em><br>Torres</h1>
+    <p class="hero-tagline">
+      Desarrollador Web · IA & Big Data · Infraestructura técnica.
+      Construyo soluciones donde el código, los datos y los sistemas convergen.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">Ver proyectos</a>
+      <a href="#contact" class="btn btn-ghost">Contactar</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stat">
+      <div class="hero-stat-n">DAW</div>
+      <div class="hero-stat-label">C.F.G.S. Desarrollo de Aplicaciones Web</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-n">IA+BD</div>
+      <div class="hero-stat-label">Especialización en IA & Big Data — Ilerna</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-n">5+</div>
+      <div class="hero-stat-label">Años en infraestructura y sistemas técnicos</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-label">// 01 — sobre mí</p>
+      <h2 class="section-title">Técnico<br>& desarrollador</h2>
+      <div class="about-info">
+        <div class="info-row"><span>Ubicación</span><span>Jerez de la Frontera, Cádiz</span></div>
+        <div class="info-row"><span>Formación</span><span>DAW · IA & Big Data</span></div>
+        <div class="info-row"><span>Idiomas</span><span>Español (nativo) · Inglés (técnico)</span></div>
+        <div class="info-row"><span>Disponibilidad</span><span>Abierto a oportunidades</span></div>
+      </div>
+    </div>
+    <div class="about-text">
+      <p>
+        Técnico con perfil <strong>híbrido entre el desarrollo de software y la infraestructura técnica</strong>. Mi trayectoria combina años en instalaciones, telecomunicaciones y mantenimiento industrial con una formación orientada al desarrollo web y la inteligencia artificial.
+      </p>
+      <p>
+        Actualmente cursando la <strong>especialización en IA y Big Data</strong> en Ilerna, profundizo en NLP con spaCy, Machine Learning (supervisado y no supervisado), modelos de clustering y sistemas expertos. Paralelamente, desarrollo proyectos de automatización e infraestructura en casa, incluyendo sistemas de energía solar con inversores híbridos y almacenamiento LiFePO4.
+      </p>
+      <p>
+        Me interesa trabajar en equipos donde la <strong>visión técnica, los datos y el producto</strong> estén alineados. Busco roles en frontend, desarrollo web o posiciones AI-adjacent donde pueda aportar tanto código como criterio técnico.
+      </p>
+      <div class="about-chips">
+        <span class="chip accent">Python</span>
+        <span class="chip accent">spaCy / NLP</span>
+        <span class="chip accent">Machine Learning</span>
+        <span class="chip">HTML / CSS / JS</span>
+        <span class="chip">React</span>
+        <span class="chip">SQL</span>
+        <span class="chip">Infraestructura</span>
+        <span class="chip">IoT / Hardware</span>
+        <span class="chip">Git / GitHub</span>
+        <span class="chip">Linux</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <p class="section-label reveal">// 02 — habilidades</p>
+  <h2 class="section-title reveal">Áreas de<br>especialización</h2>
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-icon">[01] — FRONTEND</div>
+      <h3>Desarrollo Web</h3>
+      <p>Creación de interfaces modernas, accesibles y responsive. Desde HTML/CSS vanilla hasta componentes React con lógica de estado compleja.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span><span class="skill-tag">CSS3</span><span class="skill-tag">JavaScript</span><span class="skill-tag">React</span><span class="skill-tag">Git</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">[02] — IA & DATA</div>
+      <h3>Inteligencia Artificial</h3>
+      <p>NLP con spaCy, pipeline de ML desde datos crudos hasta modelos entrenados. Clustering, PCA, SVM, Random Forest y sistemas expertos.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span><span class="skill-tag">spaCy</span><span class="skill-tag">scikit-learn</span><span class="skill-tag">pandas</span><span class="skill-tag">NLP</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">[03] — INFRA</div>
+      <h3>Infraestructura & IoT</h3>
+      <p>Instalación y configuración de sistemas eléctricos, solar y hardware embebido. Diagnóstico de PCBs, microcontroladores y protocolos de comunicación.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Linux</span><span class="skill-tag">Solar/Batería</span><span class="skill-tag">RS485</span><span class="skill-tag">PIC MCU</span><span class="skill-tag">Redes</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-icon">[04] — BACKEND</div>
+      <h3>Backend & Datos</h3>
+      <p>APIs REST, bases de datos relacionales y no relacionales, scripting de automatización y procesamiento de datos en Python.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">SQL</span><span class="skill-tag">REST API</span><span class="skill-tag">JSON</span><span class="skill-tag">Node.js</span><span class="skill-tag">Docker</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <p class="section-label reveal">// 03 — proyectos</p>
+  <h2 class="section-title reveal">Trabajo<br>seleccionado</h2>
+  <div class="projects-grid">
+    <a href="https://github.com/JuanJo1974/nlp-spacy-practicas" class="project-card reveal">
+      <div class="project-category">IA · NLP</div>
+      <h3>Prácticas NLP con spaCy</h3>
+      <p>Tokenización, análisis de dependencias, NER y reglas con Matcher. Visualización de árboles de dependencia y extracción de entidades en español.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span>Python</span><span>spaCy</span><span>displaCy</span>
+        </div>
+        <span class="project-arrow">→ GitHub</span>
+      </div>
+    </a>
+    <a href="https://github.com/JuanJo1974/ml-clasificacion" class="project-card reveal">
+      <div class="project-category">IA · Machine Learning</div>
+      <h3>Clasificación supervisada</h3>
+      <p>Implementación y comparación de algoritmos: SVM, Random Forest, KNN y regresión logística. Incluye preprocesamiento, PCA y métricas de evaluación.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span>Python</span><span>scikit-learn</span><span>pandas</span>
+        </div>
+        <span class="project-arrow">→ GitHub</span>
+      </div>
+    </a>
+    <a href="https://github.com/JuanJo1974/portfolio-web" class="project-card reveal">
+      <div class="project-category">Frontend</div>
+      <h3>Portfolio Personal</h3>
+      <p>Esta misma web. Diseño custom en HTML/CSS/JS puro, sin frameworks. Publicado en GitHub Pages. Responsive y accesible.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span>HTML</span><span>CSS</span><span>JS</span>
+        </div>
+        <span class="project-arrow">→ GitHub</span>
+      </div>
+    </a>
+    <a href="https://github.com/JuanJo1974/solar-monitor" class="project-card reveal">
+      <div class="project-category">IoT · Hardware</div>
+      <h3>Monitor Instalación Solar</h3>
+      <p>Sistema de monitorización para inversor EASUN con baterías Pylontech. Dashboard de parámetros en tiempo real: tensión, carga, prioridades de salida.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span>Python</span><span>RS485</span><span>Linux</span>
+        </div>
+        <span class="project-arrow">→ GitHub</span>
+      </div>
+    </a>
+    <a href="https://github.com/JuanJo1974/clustering-analisis" class="project-card reveal">
+      <div class="project-category">IA · Unsupervised ML</div>
+      <h3>Análisis de Clustering</h3>
+      <p>K-Means, DBSCAN y clustering jerárquico aplicados a datasets reales. Reducción de dimensionalidad con PCA y visualización de clusters.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span>Python</span><span>scikit-learn</span><span>matplotlib</span>
+        </div>
+        <span class="project-arrow">→ GitHub</span>
+      </div>
+    </a>
+    <a href="https://github.com/JuanJo1974/ilerna-iabd-notas" class="project-card reveal">
+      <div class="project-category">IA · Estudios</div>
+      <h3>Apuntes IABD — Ilerna</h3>
+      <p>Repositorio organizado con teoría, prácticas y resúmenes del Curso de Especialización en IA y Big Data. Incluye notebooks Jupyter y ejercicios resueltos.</p>
+      <div class="project-footer">
+        <div class="project-stack">
+          <span>Python</span><span>Jupyter</span><span>Markdown</span>
+        </div>
+        <span class="project-arrow">→ GitHub</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-left">
+      <p class="section-label">// 04 — contacto</p>
+      <h2 class="section-title">¿Hablamos?</h2>
+      <p>Disponible para roles en frontend, desarrollo web o posiciones en IA/datos. También abierto a colaboraciones técnicas o proyectos freelance.</p>
+      <div class="contact-links">
+        <a href="mailto:tu-email@gmail.com" class="contact-link">
+          <span class="contact-link-label">EMAIL</span>
+          <span>tu-email@gmail.com</span>
+        </a>
+        <a href="https://linkedin.com/in/tu-perfil" target="_blank" class="contact-link">
+          <span class="contact-link-label">LINKEDIN</span>
+          <span>linkedin.com/in/tu-perfil</span>
+        </a>
+        <a href="https://github.com/JuanJo1974" target="_blank" class="contact-link">
+          <span class="contact-link-label">GITHUB</span>
+          <span>github.com/JuanJo1974</span>
+        </a>
+        <a href="./cv-juanjose-fernandez.pdf" class="contact-link">
+          <span class="contact-link-label">CV</span>
+          <span>Descargar currículum (PDF)</span>
+        </a>
+      </div>
+    </div>
+    <div class="contact-right">
+      <h3>Envíame un mensaje</h3>
+      <form action="https://formspree.io/f/TU-ID" method="POST">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" name="name" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="tu@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Mensaje</label>
+          <textarea name="message" placeholder="Cuéntame sobre la oportunidad o proyecto..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;text-align:center;border:none;cursor:pointer;">Enviar mensaje</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Juan José Fernández Torres</span>
+  <span>Hecho con HTML, CSS & JS · Jerez de la Frontera</span>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
